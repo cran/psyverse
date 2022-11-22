@@ -46,6 +46,8 @@
 #' encountered.
 #' @param encoding The encoding to use when calling [readLines()]. Set to
 #' NULL to let [readLines()] guess.
+#' @param sortDecreasing Whether to sort the constructs in decreasing order
+#' (`TRUE`), in increasing order (`FALSE`), or not at all (`NULL`).
 #' @param silent Whether to be silent (TRUE) or informative (FALSE).
 #' @param x The parsed `parsed_dct` object.
 #' @param ... Any other arguments are passed to the print command.
@@ -60,11 +62,10 @@
 #'
 #' @examples
 #' exampleSpec <-
-#'   system.file("inst",
-#'               "extdata",
-#'               "example_dct_spec_1.dct",
+#'   system.file("extdata",
+#'               "example.dct.yaml",
 #'               package="psyverse");
-#' load_dct_specs(exampleSpec);
+#' dctObject <- load_dct_specs(exampleSpec);
 #'
 #' \dontrun{
 #' psyverse::load_dct_dir(path="A:/some/path");
@@ -105,6 +106,14 @@ load_dct_specs <- function(text,
   ###--------------------------------------------------------------------------
   ### Parse DCT specifications and return result
   ###--------------------------------------------------------------------------
+
+  dctSpecs <- lapply(
+    dctSpecs,
+    function(x) {
+      class(x$dct) <- c("psyverse_dct", class(x$dct));
+      return(x);
+    }
+  );
 
   res <-
     parse_dct_specs(dctSpecs,

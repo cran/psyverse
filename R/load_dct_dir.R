@@ -2,13 +2,14 @@
 #' @export
 load_dct_dir <- function(path,
                          recursive = TRUE,
-                         extension = "rock|dct",
+                         extension = "\\.rock|\\.dct\\.yaml|\\.yaml|\\.yml",
                          regex,
                          dctContainer = "dct",
                          headingLevel = 2,
                          delimiterRegEx = "^---$",
                          ignoreOddDelimiters = FALSE,
                          encoding="UTF-8",
+                         sortDecreasing = FALSE,
                          silent=TRUE) {
 
   if (!dir.exists(path)) {
@@ -26,29 +27,33 @@ load_dct_dir <- function(path,
   ###--------------------------------------------------------------------------
 
   dctSpecs <-
-    yum::load_and_simplify_dir(path=path,
-  #dctSpecList <-
-    #yum::load_yaml_dir(path=path,
-                       recursive=recursive,
-                       fileRegexes = regex,
-                       select=dctContainer,
-                       delimiterRegEx = delimiterRegEx,
-                       ignoreOddDelimiters = ignoreOddDelimiters,
-                       encoding = encoding,
-                       silent=silent);
-
-  ### Remove 'file' level
-  # dctSpecs <-
-  #   unlist(dctSpecList,
-  #          recursive=FALSE);
+    yum::load_and_simplify_dir(
+      path = path,
+      recursive = recursive,
+      fileRegexes = regex,
+      select = dctContainer,
+      delimiterRegEx = delimiterRegEx,
+      ignoreOddDelimiters = ignoreOddDelimiters,
+      encoding = encoding,
+      silent = silent
+    );
 
   ###--------------------------------------------------------------------------
   ### Parse DCT specifications and return result
   ###--------------------------------------------------------------------------
 
+  dctSpecs <- lapply(
+    dctSpecs,
+    function(x) {
+      class(x) <- c("psyverse_dct", class(x));
+      return(x);
+    }
+  );
+
   res <-
     parse_dct_specs(dctSpecs,
-                    headingLevel=headingLevel);
+                    headingLevel=headingLevel,
+                    sortDecreasing=sortDecreasing);
 
   return(res);
 

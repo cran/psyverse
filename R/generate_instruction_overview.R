@@ -3,8 +3,10 @@
 generate_instruction_overview <- function(dctSpecDf,
                                           type,
                                           headingLevel = 3,
-                                          hyperlink_ucids = "Markdown",
-                                          urlPrefix = "#") {
+                                          hyperlink_UCIDs = "Markdown",
+                                          urlPrefix = "#",
+                                          sortDecreasing = FALSE) {
+
   typeInstr <- paste0(type, "_instruction");
 
   ### Switch order of type and activity
@@ -27,9 +29,9 @@ generate_instruction_overview <- function(dctSpecDf,
       apply(dctSpecDf[order(dctSpecDf$label), ],
             1,
             function(spec) {
-              if (type == "aspect_code") {
+              if (grepl("_code", type)) {
                 extraInfo <-
-                  c(paste0("*When coding aspects, use the following code: **`dct:", spec['dct_id'], "`***"),
+                  c(paste0("*Use the following code: **`dct:", spec['dct_id'], "`***"),
                     "");
               } else {
                 extraInfo <-
@@ -42,10 +44,10 @@ generate_instruction_overview <- function(dctSpecDf,
               titleBit <- paste(repStr("#", headingLevel+1), " ", spec['label']);
 
               ### Replace links to DCTs with hyperlinks
-              if (hyperlink_ucids == "Markdown") {
+              if (hyperlink_UCIDs == "Markdown") {
                 res <- hyperlink_ucids(res,
                                        urlPrefix = urlPrefix);
-              } else if (hyperlink_ucids == "HTML") {
+              } else if (hyperlink_UCIDs == "HTML") {
                 res <- hyperlink_ucids(res,
                                        replacement = paste0('<a href="',
                                                             urlPrefix,

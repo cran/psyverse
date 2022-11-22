@@ -10,13 +10,14 @@
 load_dct_dir(
   path,
   recursive = TRUE,
-  extension = "rock|dct",
+  extension = "\\\\.rock|\\\\.dct\\\\.yaml|\\\\.yaml|\\\\.yml",
   regex,
   dctContainer = "dct",
   headingLevel = 2,
   delimiterRegEx = "^---$",
   ignoreOddDelimiters = FALSE,
   encoding = "UTF-8",
+  sortDecreasing = FALSE,
   silent = TRUE
 )
 
@@ -65,6 +66,9 @@ encountered.}
 \item{encoding}{The encoding to use when calling \code{\link[=readLines]{readLines()}}. Set to
 NULL to let \code{\link[=readLines]{readLines()}} guess.}
 
+\item{sortDecreasing}{Whether to sort the constructs in decreasing order
+(\code{TRUE}), in increasing order (\code{FALSE}), or not at all (\code{NULL}).}
+
 \item{silent}{Whether to be silent (TRUE) or informative (FALSE).}
 
 \item{text, file}{As \code{text} or \code{file}, you can specify a \code{file} to read with
@@ -108,11 +112,10 @@ manipulations, or aspects of a construct.
 }
 \examples{
 exampleSpec <-
-  system.file("inst",
-              "extdata",
-              "example_dct_spec_1.dct",
+  system.file("extdata",
+              "example.dct.yaml",
               package="psyverse");
-load_dct_specs(exampleSpec);
+dctObject <- load_dct_specs(exampleSpec);
 
 \dontrun{
 psyverse::load_dct_dir(path="A:/some/path");

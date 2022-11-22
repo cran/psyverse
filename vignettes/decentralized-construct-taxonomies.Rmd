@@ -16,6 +16,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Preprint
+
+There is now a preprint discussing the background of this package in detail. That preprint, "Knowing What We're Talking About: Facilitating Decentralized, Unequivocal Publication of and Reference to Psychological Construct Definitions and Instructions" is available at [https://psyarxiv.com/8tpcv/](https://psyarxiv.com/8tpcv/). The original vignette contents are retained below.
+
 ## Background
 
 In psychology, many different guidelines exist for developing measurement instruments and manipulations of constructs. When conducting empirical research or secondary research, therefore, it is important to have a clear idea, and clearly communicate, which guidelines are followed. However, these guidelines are fragmented, and no universal consensus exists regarding how any construct must be measured or manipulated. Therefore, developing one 'final' authoritative list or taxonomy is not feasible or even desirable. At the same time, it is important that people clearly communicate their 'study-specific taxonomy'. The `psyverse` package makes it possible to combine these two goals.
@@ -31,7 +35,7 @@ Similarly, different theories that explain behavior postulate different psycholo
 
 However, given that psychological constructs do not correspond to natural kinds (Peters & Crutzen, 2017; also see e.g. Fried, 2017b), there is no way to settle on 'the best' definitions or operationalisations. Expert consensus is no sensible instrument, because the opinions and preferences of experienced researchers reflect, to an unknown degree, their training; and therefore, convictions from decades ago (which does not necessarily make them wrong; but at the same time does nothing to make it likely that they are right). Neither can this problem be solved statistically. For example, correlation strengths also reflect artefacts such as correlated measurement error that render the assumption that correlation strengths can be used to infer 'the best' definitions or operationalisations circumspect (e.g. nonsense items obtain equally high internal consistencies as items that appear sensible at face value; Maul, 2017).
 
-Perhaps then, it is no surprise that in practice, operationalisations often vary between studies, with studies often using a wide array of items, not to mention the variation in languages, target behaviors, and cultures. For example, a recent review of self-identity operationalisations identified hundreds of different items purportedly measuring the same construct (Snippe, Peters & Kok, 2019). These different measurement instruments purporting to measure the same construct turn out to measure different things when this claim is tested (see Fried, 2017 for depression; Weidman, Steckler & Tracy, 2017, for emotions; Warnell & Redcay, 2019, for theory of mind; and Williams & Rhodes, 2016a, for self-efficacy; a crowd-sourced list is available at https://docs.google.com/document/d/1vaq0U3_U2PEgouPLteUjab15aVxyEv2IVdbOxTErkHM). And when put to the test, many commonly used measurement instruments turn out to be invalid in themselves (Hussey & Hughes, 2019). As a consequence of this pluriformity and lack of validity, research syntheses suffer, and in communication about research results, a lot is lost in translation.
+Perhaps then, it is no surprise that in practice, operationalisations often vary between studies, with studies often using a wide array of items, not to mention the variation in languages, target behaviors, and cultures. For example, a recent review of self-identity operationalisations identified hundreds of different items purportedly measuring the same construct (Snippe, Peters & Kok, 2019). These different measurement instruments purporting to measure the same construct turn out to measure different things when this claim is tested (see Fried, 2017 for depression; Weidman, Steckler & Tracy, 2017, for emotions; Warnell & Redcay, 2019, for theory of mind; and Williams & Rhodes, 2016a, for self-efficacy). And when put to the test, many commonly used measurement instruments turn out to be invalid in themselves (Hussey & Hughes, 2019). As a consequence of this pluriformity and lack of validity, research syntheses suffer, and in communication about research results, a lot is lost in translation.
 
 However, this variation observed in practice is hard to reconcile with the need for consistency in communication. How can this be realised given that there's no scientifically justifiable way to identify 'the best' definitions or operationalisations?
 
@@ -49,19 +53,16 @@ DCTs are plain text files that follow a number of conventions that enable unequi
 - Construct measurement:
     - Instructions for developing a measurement instrument to measure the construct
     - Instructions for coding a measurement instrument in systematic reviews
-- Construct manipulation:
-    - Instructions for developing a manipulation of the construct
-    - Instructions for coding a manipulation in systematic reviews
 - Construct aspects:
     - Instructions for eliciting aspects or 'construct content' (as in qualitative research)
     - Instructions for coding aspects or 'construct content' (as in qualitative research)
 - Relationships to other constructs
 
-The seven main specifications can be based on a source that can also be specified in a human- an machine readable manner. The definitions should describe exactly what aspects of the human psychology are, and which are not, part of the target construct. The six instructions should provide researchers with what they need to develop or recognize (code) operationalisations (i.e. measurement instruments or manipulations) and to conduct qualitative research to explore the construct, for example in a given context or population (note that this latter approach, while commonplace in health psychology, where theory of commonly applied to a variety of different populations and target behaviors, may not apply or be useful in other areas).
+The five main specifications can be based on a source that can also be specified in a human- an machine readable manner. The definitions should describe exactly what aspects of the human psychology are, and which are not, part of the target construct. The four instructions should provide researchers with what they need to develop or recognize (code) measurement instruments and to conduct qualitative research to explore the construct, for example in a given context or population (note that this latter approach, while commonplace in health psychology, where theory is commonly applied to a variety of different populations and target behaviors, may not apply or be useful in other areas).
 
-Of course, these seven specifications should form a coherent, consistent set within each DCT specification. DCTs enable researchers to easily communicate how exactly they define their target constructs, as well as exactly what implications this carries for operationalisation. Other researchers can adopt the exact same definitions (and therefore, normally the same instructions for operationalisation etc) by simply copying the DCT specifications and also publishing them with their paper. Or, alternatively, they can adjust them, or use different ones.
+Of course, these five specifications should form a coherent, consistent set within each DCT specification. DCTs enable researchers to easily communicate how exactly they define their target constructs, as well as exactly what implications this carries for operationalisation. Other researchers can adopt the exact same definitions (and therefore, normally the same instructions for operationalisation etc) by simply copying the DCT specifications and also publishing them with their paper. Or, alternatively, they can adjust them, or use different ones.
 
-This is enabled by the DCT identifiers. To enable decentralized specification of DCTs, yet maintain the ability to unequivocally refer to a specific DCT, each DCT specification has an identifier. This identifier is generated by the 'dct' R package, and is virtually unique without the need for central oversight. This mechanism ensures that it is possible to refer unequivocally to any given DCT, thereby simultaneously supporting clarity of communication and variation in definitions and operationalisations.
+This is enabled by the DCT identifiers. To enable decentralized specification of DCTs, yet maintain the ability to unequivocally refer to a specific DCT, each DCT specification has an identifier. This identifier is generated by the `psyverse` R package, and is virtually unique without the need for central oversight. This mechanism ensures that it is possible to refer unequivocally to any given DCT, thereby simultaneously supporting clarity of communication and variation in definitions and operationalisations.
 
 In addition to facilitating clear communication without imposing the need for central curation, DCTs facilitate building databases of construct definitions and accompanying instructions. A lab or course can collect a set of DCT specifications and simply use the DCT package to compile them into sets of instructions for developing operationalisations, or for coding qualitative data, consistent with the other work done at that lab or institution.
 
@@ -114,7 +115,6 @@ dct:
 ```
 
 An example in progress is available at https://a-bc.gitlab.io/dct-raa/.
-
 
 ## References
 

@@ -6,16 +6,20 @@
 #'
 #' @param dctSpecs The DCT specifications (a list).
 #' @param headingLevel The heading level for Markdown output.
-#' @param hyperlink_ucids,urlPrefix Passed on to the
+#' @param hyperlink_UCIDs,urlPrefix,HTMLoutput Passed on to the
 #' [generate_instruction_overview()] and [generate_construct_overview()]
 #' functions.
+#' @param sortDecreasing Whether to sort the constructs in decreasing order
+#' (`TRUE`), in increasing order (`FALSE`), or not at all (`NULL`).
 #'
 #' @return The object of parsed DCT specifications.
 #' @export
 parse_dct_specs <- function(dctSpecs,
                             headingLevel = 2,
-                            hyperlink_ucids = "Markdown",
-                            urlPrefix = "#") {
+                            hyperlink_UCIDs = TRUE,
+                            urlPrefix = "#",
+                            HTMLoutput = FALSE,
+                            sortDecreasing=FALSE) {
 
   res <- list(input = as.list(environment()));
 
@@ -89,8 +93,8 @@ parse_dct_specs <- function(dctSpecs,
              ### specifying an instruction only.
              for (currentCheck in c('measure_dev',
                                     'measure_code',
-                                    'manipulate_dev',
-                                    'manipulate_code',
+                                    # 'manipulate_dev',
+                                    # 'manipulate_code',
                                     'aspect_dev',
                                     'aspect_code')) {
                if (!is.null(spec[[currentCheck]]) &&
@@ -149,12 +153,21 @@ parse_dct_specs <- function(dctSpecs,
         }
         ### The fields are named
         if (length(dctSpec[[element]]) == 1) {
-          ### Just one field; simply set it with its name
-          node_df[id2row[dctSpec$id],
-                  paste0(element,
-                         "_",
-                         names(dctSpec[[element]]))] <-
-            dctSpec[[element]][[1]] %||% "";
+          if (!is.null(dctSpec[[element]][["item"]])) {
+            ### One or more items, e.g. examples
+            node_df[id2row[dctSpec$id],
+                    paste0(element,
+                           "_",
+                           names(dctSpec[[element]]))] <-
+              vecTxtQ(dctSpec[[element]][["item"]]);
+          } else {
+            ### Just one field; simply set it with its name
+            node_df[id2row[dctSpec$id],
+                    paste0(element,
+                           "_",
+                           names(dctSpec[[element]]))] <-
+              dctSpec[[element]][[1]] %||% "";
+          }
         } else {
           # ### Multiple named fields; check whether they're all single values
           # if (all(unlist(lapply(dctSpec[[element]], length))==1)) {
@@ -224,6 +237,9 @@ parse_dct_specs <- function(dctSpecs,
            node_df$id,
            node_df$label);
 
+  ### Trim whitespace
+  node_df$label <- trimws(node_df$label);
+
   ### Ensure column order is correct
   node_df <- node_df[, c('id',
                          'type',
@@ -239,7 +255,7 @@ parse_dct_specs <- function(dctSpecs,
 
   edge_df_input <- data.frame();
   for (dctSpec in dctSpecs) {
-    if ('rel' %in% names(dctSpec)) {
+    if (('rel' %in% names(dctSpec)) && (!is.null(dctSpec$rel))) {
       if (is.list(dctSpec)) {
         rel <- dctSpec[['rel']];
         dct_id <- dctSpec[['id']];
@@ -556,11 +572,19 @@ parse_dct_specs <- function(dctSpecs,
   ### Overview with all definitions
   ###--------------------------------------------------------------------------
 
+
   definition_overview <-
-    generate_definitions_overview(node_df,
-                                  headingLevel=headingLevel,
-                                  hyperlink_ucids = hyperlink_ucids,
-                                  urlPrefix = urlPrefix);
+    generate_definitions_overview(
+      node_df,
+      headingLevel = headingLevel,
+      hyperlink_UCIDs = ifelse(
+        hyperlink_UCIDs,
+        "Markdown",
+        FALSE
+      ),
+      urlPrefix = urlPrefix,
+      sortDecreasing = sortDecreasing
+    );
 
   ###--------------------------------------------------------------------------
   ### Overviews with instructions for developing measurement instruments, for
@@ -569,46 +593,60 @@ parse_dct_specs <- function(dctSpecs,
   ###--------------------------------------------------------------------------
 
   measure_dev <-
-    generate_instruction_overview(node_df,
-                                  type="measure_dev",
-                                  headingLevel=headingLevel,
-                                  hyperlink_ucids = hyperlink_ucids,
-                                  urlPrefix = urlPrefix);
+    generate_instruction_overview(
+      node_df,
+      type = "measure_dev",
+      headingLevel = headingLevel,
+      hyperlink_UCIDs = ifelse(
+        hyperlink_UCIDs,
+        "Markdown",
+        FALSE
+      ),
+      urlPrefix = urlPrefix,
+      sortDecreasing = sortDecreasing
+    );
 
   measure_code <-
-    generate_instruction_overview(node_df,
-                                  type="measure_code",
-                                  headingLevel=headingLevel,
-                                  hyperlink_ucids = hyperlink_ucids,
-                                  urlPrefix = urlPrefix);
-
-  manipulate_dev <-
-    generate_instruction_overview(node_df,
-                                  type="manipulate_dev",
-                                  headingLevel=headingLevel,
-                                  hyperlink_ucids = hyperlink_ucids,
-                                  urlPrefix = urlPrefix);
-
-  manipulate_code <-
-    generate_instruction_overview(node_df,
-                                  type="manipulate_code",
-                                  headingLevel=headingLevel,
-                                  hyperlink_ucids = hyperlink_ucids,
-                                  urlPrefix = urlPrefix);
+    generate_instruction_overview(
+      node_df,
+      type = "measure_code",
+      headingLevel = headingLevel,
+      hyperlink_UCIDs = ifelse(
+        hyperlink_UCIDs,
+        "Markdown",
+        FALSE
+      ),
+      urlPrefix = urlPrefix,
+      sortDecreasing = sortDecreasing
+    );
 
   aspect_dev <-
-    generate_instruction_overview(node_df,
-                                  type="aspect_dev",
-                                  headingLevel=headingLevel,
-                                  hyperlink_ucids = hyperlink_ucids,
-                                  urlPrefix = urlPrefix);
+    generate_instruction_overview(
+      node_df,
+      type = "aspect_dev",
+      headingLevel = headingLevel,
+      hyperlink_UCIDs = ifelse(
+        hyperlink_UCIDs,
+        "Markdown",
+        FALSE
+      ),
+      urlPrefix = urlPrefix,
+      sortDecreasing = sortDecreasing
+    );
 
   aspect_code <-
-    generate_instruction_overview(node_df,
-                                  type="aspect_code",
-                                  headingLevel=headingLevel,
-                                  hyperlink_ucids = hyperlink_ucids,
-                                  urlPrefix = urlPrefix);
+    generate_instruction_overview(
+      node_df,
+      type="aspect_code",
+      headingLevel=headingLevel,
+      hyperlink_UCIDs = ifelse(
+        hyperlink_UCIDs,
+        "Markdown",
+        FALSE
+      ),
+      urlPrefix = urlPrefix,
+      sortDecreasing = sortDecreasing
+    );
 
   ###--------------------------------------------------------------------------
   ### Overviews per construct, basically a neatly formatted version of the DCT
@@ -619,8 +657,10 @@ parse_dct_specs <- function(dctSpecs,
     lapply(dctSpecs,
            generate_construct_overview,
            headingLevel=headingLevel,
-           hyperlink_ucids = hyperlink_ucids,
-           urlPrefix = urlPrefix);
+           hyperlink_UCIDs = hyperlink_UCIDs,
+           HTMLoutput = HTMLoutput,
+           urlPrefix = urlPrefix,
+           sortDecreasing = sortDecreasing);
 
   ###--------------------------------------------------------------------------
   ### Return result
@@ -636,8 +676,8 @@ parse_dct_specs <- function(dctSpecs,
                      defs = definition_overview,
                      instr = list(measure_dev = measure_dev,
                                   measure_code = measure_code,
-                                  manipulate_dev = manipulate_dev,
-                                  manipulate_code = manipulate_code,
+                                  # manipulate_dev = manipulate_dev,
+                                  # manipulate_code = manipulate_code,
                                   aspect_dev = aspect_dev,
                                   aspect_code = aspect_code));
 

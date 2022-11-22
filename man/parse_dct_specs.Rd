@@ -7,8 +7,10 @@
 parse_dct_specs(
   dctSpecs,
   headingLevel = 2,
-  hyperlink_ucids = "Markdown",
-  urlPrefix = "#"
+  hyperlink_UCIDs = TRUE,
+  urlPrefix = "#",
+  HTMLoutput = FALSE,
+  sortDecreasing = FALSE
 )
 }
 \arguments{
@@ -16,9 +18,12 @@ parse_dct_specs(
 
 \item{headingLevel}{The heading level for Markdown output.}
 
-\item{hyperlink_ucids, urlPrefix}{Passed on to the
+\item{hyperlink_UCIDs, urlPrefix, HTMLoutput}{Passed on to the
 \code{\link[=generate_instruction_overview]{generate_instruction_overview()}} and \code{\link[=generate_construct_overview]{generate_construct_overview()}}
 functions.}
+
+\item{sortDecreasing}{Whether to sort the constructs in decreasing order
+(\code{TRUE}), in increasing order (\code{FALSE}), or not at all (\code{NULL}).}
 }
 \value{
 The object of parsed DCT specifications.

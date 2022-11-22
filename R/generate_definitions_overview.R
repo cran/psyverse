@@ -2,8 +2,9 @@
 #' @export
 generate_definitions_overview <- function(dctSpecDf,
                                           headingLevel = 3,
-                                          hyperlink_ucids = "Markdown",
-                                          urlPrefix = "#") {
+                                          hyperlink_UCIDs = "Markdown",
+                                          urlPrefix = "#",
+                                          sortDecreasing = FALSE) {
 
   res <-
     c(paste0(repStr("#", headingLevel), " Construct definitions"),
@@ -23,10 +24,10 @@ generate_definitions_overview <- function(dctSpecDf,
                                 spec['label']);
 
               ### Replace links to DCTs with hyperlinks
-              if (hyperlink_ucids == "Markdown") {
+              if (hyperlink_UCIDs == "Markdown") {
                 res <- hyperlink_ucids(res,
                                        urlPrefix = urlPrefix);
-              } else if (hyperlink_ucids == "HTML") {
+              } else if (hyperlink_UCIDs == "HTML") {
                 res <- hyperlink_ucids(res,
                                        replacement = paste0('<a href="',
                                                             urlPrefix,
