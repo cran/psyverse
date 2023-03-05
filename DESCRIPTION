@@ -1,9 +1,9 @@
 Package: psyverse
 Type: Package
 Title: Decentralized Unequivocality in Psychological Science
-Version: 0.2.4
+Version: 0.2.6
 Authors@R: c(person("Gjalt-Jorn", "Peters",
-                    email = "gjalt-jorn@behaviorchange.eu",
+                    email = "psyverse@opens.science",
                     role = c("aut", "cre", "ctb"),
                     comment = c(ORCID = "0000-0002-0336-9589")),
              person(given = "Rik",
@@ -11,7 +11,7 @@ Authors@R: c(person("Gjalt-Jorn", "Peters",
                     role = c("ctb"),
                     email = "rik.crutzen@maastrichtuniversity.nl",
                     comment = c(ORCID = "0000-0002-3731-6610")))
-Maintainer: Gjalt-Jorn Peters <gjalt-jorn@behaviorchange.eu>
+Maintainer: Gjalt-Jorn Peters <psyverse@opens.science>
 License: GPL (>= 3)
 Description: The constructs used to study the human psychology have
     many definitions and corresponding instructions for eliciting
@@ -37,9 +37,9 @@ Suggests: covr, DiagrammeR (>= 1.0.0), haven, googlesheets4, knitr,
         XLConnect
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2022-11-22 13:08:02 UTC; Gjalt-Jorn Peters
+Packaged: 2023-03-05 11:04:41 UTC; gjalt
 Author: Gjalt-Jorn Peters [aut, cre, ctb]
     (<https://orcid.org/0000-0002-0336-9589>),
   Rik Crutzen [ctb] (<https://orcid.org/0000-0002-3731-6610>)
 Repository: CRAN
-Date/Publication: 2022-11-22 13:20:02 UTC
+Date/Publication: 2023-03-05 22:00:07 UTC
